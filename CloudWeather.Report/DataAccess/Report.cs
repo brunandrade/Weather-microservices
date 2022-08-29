@@ -1,4 +1,4 @@
-﻿namespace CloudWeather.Report.DataAccess
+﻿namespace CloudWeather.Reports.DataAccess
 {
     public class Report
     {

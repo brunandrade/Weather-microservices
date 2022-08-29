@@ -6,7 +6,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Add Database Context
 builder.Services.AddDbContext<PrecipDbContext>(
-    options => {
+    options =>
+    {
         options.EnableSensitiveDataLogging();
         options.EnableDetailedErrors();
         options.UseNpgsql(builder.Configuration.GetConnectionString("AppDb"));
@@ -19,7 +20,7 @@ var app = builder.Build();
 //Add Service Routes
 app.MapGet("/observation/{zip}", async (string zip, [FromQuery] int? days, PrecipDbContext db) =>
 {
-    if(days == null || days < 1 || days > 30)
+    if (days == null || days < 1 || days > 30)
     {
         return Results.BadRequest("Please provide a 'days' query parameter between 1 and 30");
     }
@@ -30,6 +31,13 @@ app.MapGet("/observation/{zip}", async (string zip, [FromQuery] int? days, Preci
         .ToListAsync();
 
     return Results.Ok(results);
+});
+
+app.MapPost("/observation", async (Precipitation precip, PrecipDbContext db) =>
+{
+    precip.CreatedOn = precip.CreatedOn.ToUniversalTime();
+    await db.AddAsync(precip);
+    await db.SaveChangesAsync();
 });
 
 app.Run();

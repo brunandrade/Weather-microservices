@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace CloudWeather.Report.Migrations
+namespace CloudWeather.Reports.Migrations
 {
     public partial class initalmigration : Migration
     {
